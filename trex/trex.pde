@@ -1,5 +1,3 @@
-import ddf.minim.*;
-
 PImage rexJmpImg, rexRunImg1, rexRunImg2, rexHitImg, cactusImg, backImg;
 float gravity = 1.1; 
 float add = 0; 
@@ -7,10 +5,7 @@ Player rex;
 Hurdle cactus;
 Observer observer;
 boolean hit;
-boolean debug = false;
 State state;
-Minim minim;
-AudioPlayer player;
 
 void setup()
 {
@@ -25,28 +20,12 @@ void setup()
 	cactusImg = loadImage("cactus.png");
 	backImg = loadImage("back.re-min.jpg");
 	state = new TitleState();
-	minim = new Minim(this);	
-	player = minim.loadFile("hogehoge.mp3");	
-	player.play();
 }
 void draw()
 {
 	state = state.doState();
 }
 
-void keyPressed()
-{
-	if (key==' ')	rex.jump();
-	if(debug)
-	 if (key=='r')	setup(); 
-	if (key=='q')	 exit();
-}
-void stop() 
-{
-	player.close();	 
-	minim.stop();
-	super.stop();
-}
 void mouseClicked()
 {
 	rex.jump();
@@ -59,20 +38,14 @@ class TitleState extends State
 		rex = new Player();
 		cactus = new Hurdle();
 		observer = new Observer(rex, cactus);
-
 		background(0);
 		textSize(32);
 		text("trex", width * 0.45, height * 0.4);
-		if (t_start_state>3000)
-			text("Press Space key to start", width * 0.24, height * 0.6);
 	}
 	State nextState() 
 	{
-		if (debug)
-			if ((keyPressed && key == ' ')) 
-				return new GameState();
 		if (t_start_state>3000)
-			if ((keyPressed && key == ' ')) 
+			if (mouseClicked||(keyPressed && key == ' ')) 
 				return new GameState();
 		return this;
 	}
@@ -110,18 +83,12 @@ class EndState extends State
 		textSize(32);
 		fill(255);
 		text("Game Over", width * 0.34, height * 0.4);
-		if (t_start_state>2000)
-			text("Press r key to restart", width * 0.3, height * 0.6);
 	}
 	State nextState() 
 	{
 		if (t_start_state>2000)
-			if ((keyPressed && key == 'r')) 
-			{				 
-				player.close();	 
-				minim.stop();
+			if (mouseClicked||(keyPressed && key == 'r')) 
 				return new TitleState();
-			}	 
 		return this;
 	}
 }
