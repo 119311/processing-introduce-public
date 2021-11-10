@@ -20,7 +20,7 @@ AudioPlayer player;
 void setup()
 {
   size(800, 400);
-  frameRate(60);
+  frameRate(60);  
   imageMode(CENTER);
   rectMode(CENTER);
   rexJmpImg = loadImage("trex.png");
@@ -37,6 +37,7 @@ void setup()
 void draw()
 {
   state = state.doState();
+//  saveFrame("frames/######.png");
 }
 
 void keyPressed()
@@ -60,9 +61,9 @@ class TitleState extends State
 {
   void drawState() 
   {
-  rex = new Player();
-  cactus = new Hurdle();
-  observer = new Observer(rex, cactus);
+    rex = new Player();
+    cactus = new Hurdle();
+    observer = new Observer(rex, cactus);
 
     background(0);
     textSize(32);
@@ -87,7 +88,6 @@ class GameState extends State
   void drawState() 
   {
     image(backImg, 400, 200);
-    //			background(255);
     cactus.update();
     rex.update();
     observer.update();
@@ -184,7 +184,7 @@ class Hurdle {
   {
     px = width;
     py = 0.7*height;
-    vx = -10+random(-5, 5);
+    vx = -20+random(-10, 10);
   }
 
   void update()
@@ -196,7 +196,7 @@ class Hurdle {
       {
         px = width;
         add += 0.1;
-        vx = -(16+add)*random(1.0, 1.5);
+        vx = -(10+add)*random(1.0, 1.5);
       }
     }
     image(cactusImg, px, py, 40, 70);
